@@ -13,6 +13,13 @@ const directorsSchema = new mongoose.Schema(
             type: Number,
             required: [true, 'You are required to have an age'],
         },
+        gender:{
+            type: String,
+            enum: [
+                "Male",
+                "Felmale"
+            ]
+        },
         email: {
             type: String,
             match: [

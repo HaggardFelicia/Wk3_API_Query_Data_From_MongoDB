@@ -1,7 +1,10 @@
 const Directors = require('../models/Directors');
 
+// Use a query string to use at least two query operators on one of your endpoints.
+// Use select to exclude data from an endpoint with a query string
+// Use sort on at least one endpoint to return a sorted get all endpoint
+
 const getAllDirectors = async (req, res) => {
-    //try code block to get all directors with a success message
     try{
         const directors = await Directors.find({});
         res.status(200).json({ 
@@ -9,6 +12,90 @@ const getAllDirectors = async (req, res) => {
             message: `${req.method} - request to Director endpoint`, 
             success: true
         });
+
+       res.status(200).json({ 
+           data: directors,
+           message: `${req.method} - request to Director endpoint`, 
+           success: true
+       });
+    }
+    //catch code block to handle errors
+    catch(error){
+        if (error.name === 'ValidationError') {
+            console.error('Error Validating!', error);
+            res.status(422).json(error);
+        }
+        else{
+            console.error(error);
+            res.status(500).json(error);
+        }
+    }
+};
+
+const selectDirectors = async (req, res) => {
+
+    try{
+        //query string
+       let querString = JSON.stringify(req.query);
+
+       querString = querString.replace(
+           /\b(gt|gte|lt|lte|ne|in|nin)\b/g, 
+           (match) => `$${match}`
+       );
+
+       let query = Directors.find(JSON.parse(querString));
+
+       //select
+       if(req.query.select){
+           const fields = req.query.select.split(',').join(' ');
+           query = Directors.find({}).select(fields);
+       }
+
+       const directors = await query;
+       res.status(200).json({ 
+           data: directors,
+           message: `${req.method} - request to Director endpoint`, 
+           success: true
+       });
+    }
+    //catch code block to handle errors
+    catch(error){
+        if (error.name === 'ValidationError') {
+            console.error('Error Validating!', error);
+            res.status(422).json(error);
+        }
+        else{
+            console.error(error);
+            res.status(500).json(error);
+        }
+    }
+};
+
+const sortDirectors = async (req, res) => {
+
+    try{
+        //query string
+       let querString = JSON.stringify(req.query);
+
+       querString = querString.replace(
+           /\b(gt|gte|lt|lte|ne|in|nin)\b/g, 
+           (match) => `$${match}`
+       );
+
+       let query = Directors.find(JSON.parse(querString));
+
+       //sort
+       if(req.query.sort){
+        const sortBy = req.query.sort.split(',').join(' ');
+        query = Directors.find({}).sort(sortBy);
+        } 
+
+       const directors = await query;
+       res.status(200).json({ 
+           data: directors,
+           message: `${req.method} - request to Director endpoint`, 
+           success: true
+       });
     }
     //catch code block to handle errors
     catch(error){
@@ -122,6 +209,7 @@ const deleteDirector = async (req, res) => {
 
 module.exports = {
     getAllDirectors,
+    selectDirectors,    sortDirectors,
     getDirectorById,
     createDirector,
     updateDirector,

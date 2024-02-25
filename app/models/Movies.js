@@ -15,6 +15,7 @@ const moviesSchema = new mongoose.Schema(
             enum: [
                 "Action",
                 "Adventure",
+                "Animation",
                 "Crime",
                 "Comedy",
                 "Drama",
