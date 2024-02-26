@@ -37,6 +37,7 @@ const getAllDirectors = async (req, res) => {
        }
 
        const directors = await query;
+       //response status and message
        res.status(200).json({ 
            data: directors,
            message: `${req.method} - request to Director endpoint`, 
