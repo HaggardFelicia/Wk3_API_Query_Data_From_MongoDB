@@ -1,0 +1,546 @@
+{
+	"info": {
+		"_postman_id": "10a2a3f7-5f5d-4071-b00a-7e0b9eac5090",
+		"name": "Bookshelf",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32790837"
+	},
+	"item": [
+		{
+			"name": "Directors",
+			"item": [
+				{
+					"name": "Get All Directors",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is either 200 or 201\", () => {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 50ms\", ()=>{\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(50);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Testing Directors has all the required Information\", ()=>{\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson.name).to.be.not.null;\r",
+									"    pm.expect(responseJson.age).to.be.not.null;\r",
+									"    pm.expect(responseJson.email).to.be.not.null;\r",
+									"    pm.expect(responseJson.biography).to.be.not.null;\r",
+									"    pm.expect(responseJson.id).to.be.not.null;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5000/api/v1/directors",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"directors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Director By Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is either 200 or 201\", () => {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 50ms\", ()=>{\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(50);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Testing Directors has all the required Information\", ()=>{\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson.name).to.be.not.null;\r",
+									"    pm.expect(responseJson.age).to.be.not.null;\r",
+									"    pm.expect(responseJson.email).to.be.not.null;\r",
+									"    pm.expect(responseJson.biography).to.be.not.null;\r",
+									"    pm.expect(responseJson.id).to.be.not.null;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5000/api/v1/directors/65d5ae282ea37099cde7f69f",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"directors",
+								"65d5ae282ea37099cde7f69f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Director",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is either 200 or 201\", () => {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 50ms\", ()=>{\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(100);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Testing Directors has all the required Information\", ()=>{\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson.name).to.be.not.null;\r",
+									"    pm.expect(responseJson.age).to.be.not.null;\r",
+									"    pm.expect(responseJson.email).to.be.not.null;\r",
+									"    pm.expect(responseJson.biography).to.be.not.null;\r",
+									"    pm.expect(responseJson.id).to.be.not.null;\r",
+									"});\r",
+									"\r",
+									"// pm.test(\"Testing Person Added Information\", ()=>{\r",
+									"//     const responseJson = pm.response.json();\r",
+									"//     pm.expect(responseJson.name).to.eql(\"Clint Eastwood\");\r",
+									"//     pm.expect(responseJson.age).to.eql(93);\r",
+									"//     pm.expect(responseJson.email).to.eql(\"ceastwood@gmail.com\");\r",
+									"//     pm.expect(responseJson.biography).to.eql(\"Clint Eastwood was born May 31, 1930 in San Francisco, to Clinton Eastwood Sr., a bond salesman and later manufacturing executive for Georgia-Pacific Corporation, and Ruth Wood (née Margret Ruth Runner), a housewife turned IBM clerk.\");\r",
+									"// });\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"director\":{\r\n        \"name\":\"Robert Zemeckis\",\r\n        \"age\": \"71\",\r\n        \"email\": \"rzemeckis@gmail.com\",\r\n        \"biography\": \"A whiz-kid with special effects, Robert is from the Spielberg camp of film-making (Steven Spielberg produced many of his films). Usually working with writing partner Bob Gale, Robert's earlier films show he has a talent for zany comedy (Romancing the Stone (1984), 1941 (1979)) and special effect vehicles (Who Framed Roger Rabbit (1988) and Back to the Future (1985)). \"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5000/api/v1/directors/",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"directors",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Director",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is either 200 or 201\", () => {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 50ms\", ()=>{\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(100);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Testing Directors has all the required Information\", ()=>{\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson.name).to.be.not.null;\r",
+									"    pm.expect(responseJson.age).to.be.not.null;\r",
+									"    pm.expect(responseJson.email).to.be.not.null;\r",
+									"    pm.expect(responseJson.biography).to.be.not.null;\r",
+									"    pm.expect(responseJson.id).to.be.not.null;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"gender\" : \"Female\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5000/api/v1/directors/65dad41a49a7848137b7d85c",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"directors",
+								"65dad41a49a7848137b7d85c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Author",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is either 200 or 201\", () => {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 50ms\", ()=>{\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(50);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Testing Directors has all the required Information\", ()=>{\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson.name).to.be.undefined;\r",
+									"    pm.expect(responseJson.age).to.be.undefined;\r",
+									"    pm.expect(responseJson.email).to.be.undefined;\r",
+									"    pm.expect(responseJson.biography).to.be.undefined;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:5000/api/v1/directors/65d3c818108f5b19a9227ade",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"directors",
+								"65d3c818108f5b19a9227ade"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Movies",
+			"item": [
+				{
+					"name": "Get All Movies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5000/api/v1/movies",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"movies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Movie By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5000/api/v1/movies/",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"movies",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Movie",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"movie\":{\r\n        \"title\": \"The Polar Express\",\r\n        \"genre\": \"Animation\",\r\n        \"director\": \"Robert Zemeckis\",\r\n        \"year\": \"2004\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5000/api/v1/movies",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"movies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Movie",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"genre\":\"Animation\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5000/api/v1/movies/65dae1a8a2d2843cfdc9d9bc",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"movies",
+								"65dae1a8a2d2843cfdc9d9bc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Movie",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:5000/api/v1/movies/",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"movies",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DirectorQuerys",
+			"item": [
+				{
+					"name": "Select(Name)Page(1)Limit(4)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5000/api/v1/directors?select=name&page=1&limit=4",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"directors"
+							],
+							"query": [
+								{
+									"key": "select",
+									"value": "name"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2 Queries",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5000/api/v1/directors?select=name,gender&page=1&limit=4",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"directors"
+							],
+							"query": [
+								{
+									"key": "select",
+									"value": "name,gender"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Exclude",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5000/api/v1/directors?select= name,gender,age&page=1&limit=4",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"directors"
+							],
+							"query": [
+								{
+									"key": "select",
+									"value": " name,gender,age"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sort",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5000/api/v1/directors?sort=name&page=1&limit=2",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"directors"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "name"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
