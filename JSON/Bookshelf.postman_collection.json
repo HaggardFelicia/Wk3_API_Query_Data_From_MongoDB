@@ -32,6 +32,11 @@
 									"    pm.expect(responseJson.biography).to.be.not.null;\r",
 									"    pm.expect(responseJson.id).to.be.not.null;\r",
 									"});\r",
+									"\r",
+									"pm.test(\"Testing return data\", function(){\r",
+									"    const [directorObject] = pm.response.json().data;\r",
+									"    pm.expect(directorObject).to.have.property(\"_id\");\r",
+									"});\r",
 									""
 								],
 								"type": "text/javascript"
@@ -405,46 +410,58 @@
 			"name": "DirectorQuerys",
 			"item": [
 				{
-					"name": "Select(Name)Page(1)Limit(4)",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:5000/api/v1/directors?select=name&page=1&limit=4",
-							"host": [
-								"localhost"
-							],
-							"port": "5000",
-							"path": [
-								"api",
-								"v1",
-								"directors"
-							],
-							"query": [
-								{
-									"key": "select",
-									"value": "name"
-								},
-								{
-									"key": "page",
-									"value": "1"
-								},
-								{
-									"key": "limit",
-									"value": "4"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "2 Queries",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is either 200 or 201', () => {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([\r",
+									"        200,\r",
+									"        201\r",
+									"    ]);\r",
+									"})\r",
+									"\r",
+									"pm.test('Response time is less than 50ms', () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(50);\r",
+									"})\r",
+									"\r",
+									"pm.test('Testing that the data is there', function () {\r",
+									"    const [directorObject] = pm.response.json().data;\r",
+									"    pm.expect(directorObject).to.have.property('_id');\r",
+									"    pm.expect(directorObject).to.have.property('name');\r",
+									"    pm.expect(directorObject).to.have.property('age');\r",
+									"    pm.expect(directorObject).to.have.property('email');\r",
+									"    pm.expect(directorObject).to.have.property('biography');\r",
+									"    pm.expect(directorObject).to.have.property('gender');\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Testing the lte\", function(){\r",
+									"    console.log(\"all directors\", pm.response.json().data);\r",
+									"    const [directorObject]= pm.response.json().data;\r",
+									"    console.log(\"directorObject being tested for lte\", directorObject);\r",
+									"    const age = directorObject.age;\r",
+									"    pm.expect(age).to.be.lte(50);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Testing if the gender\", function () {\r",
+									"     const [directorObject] = pm.response.json().data;\r",
+									"     const gender = directorObject.gender;\r",
+									"     pm.expect(gender).to.eql(\"Female\");\r",
+									"     console.log(\"directorObject being tested for gender\", directorObject);\r",
+									"     console.log(gender);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:5000/api/v1/directors?select=name,gender&page=1&limit=4",
+							"raw": "localhost:5000/api/v1/directors?age[lte]=50&gender=Female",
 							"host": [
 								"localhost"
 							],
@@ -456,16 +473,12 @@
 							],
 							"query": [
 								{
-									"key": "select",
-									"value": "name,gender"
+									"key": "age[lte]",
+									"value": "50"
 								},
 								{
-									"key": "page",
-									"value": "1"
-								},
-								{
-									"key": "limit",
-									"value": "4"
+									"key": "gender",
+									"value": "Female"
 								}
 							]
 						}
@@ -474,11 +487,43 @@
 				},
 				{
 					"name": "Exclude",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is either 200 or 201\", () => {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 50ms\", ()=>{\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(50);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Testing that the email and biography is excluded\", function(){\r",
+									"    const [directorObject] = pm.response.json().data;\r",
+									"    pm.expect(directorObject).to.not.have.property(\"email\");\r",
+									"    pm.expect(directorObject).to.not.have.property(\"biography\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Testing that the name,age,and gender are included\", function(){\r",
+									"    const [directorObject] = pm.response.json().data;\r",
+									"    pm.expect(directorObject).to.have.property(\"_id\");\r",
+									"    pm.expect(directorObject).to.have.property(\"name\");\r",
+									"    pm.expect(directorObject).to.have.property(\"age\");\r",
+									"    pm.expect(directorObject).to.have.property(\"gender\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:5000/api/v1/directors?select= name,gender,age&page=1&limit=4",
+							"raw": "localhost:5000/api/v1/directors?select= name,gender,age&page=3",
 							"host": [
 								"localhost"
 							],
@@ -495,11 +540,7 @@
 								},
 								{
 									"key": "page",
-									"value": "1"
-								},
-								{
-									"key": "limit",
-									"value": "4"
+									"value": "3"
 								}
 							]
 						}
@@ -508,11 +549,44 @@
 				},
 				{
 					"name": "Sort",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is either 200 or 201\", () => {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 50ms\", ()=>{\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(50);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Testing that the data is there\", function(){\r",
+									"    const [directorObject] = pm.response.json().data;\r",
+									"    pm.expect(directorObject).to.have.property(\"_id\");\r",
+									"    pm.expect(directorObject).to.have.property(\"name\");\r",
+									"    pm.expect(directorObject).to.have.property(\"age\");\r",
+									"    pm.expect(directorObject).to.have.property(\"email\");\r",
+									"    pm.expect(directorObject).to.have.property(\"biography\");\r",
+									"    pm.expect(directorObject).to.have.property(\"gender\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Testing Pagination\", function(){\r",
+									"    const [directorObject] = pm.response.json().data;\r",
+									"    console.log(directorObject);\r",
+									"    pm.expect([directorObject]).to.have.lengthOf(1);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:5000/api/v1/directors?sort=name&page=1&limit=2",
+							"raw": "localhost:5000/api/v1/directors?sort=name&page=2&limit=1",
 							"host": [
 								"localhost"
 							],
@@ -529,11 +603,11 @@
 								},
 								{
 									"key": "page",
-									"value": "1"
+									"value": "2"
 								},
 								{
 									"key": "limit",
-									"value": "2"
+									"value": "1"
 								}
 							]
 						}
